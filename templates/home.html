@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Spam Classification Tool</title>
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+<body>
+  <div class="container">
+    <form action="/predict" method="POST" required>
+    <h1>Spam Classification Tool</h1>
+
+    <label for="text">Enter the message to classify:</label>
+    <textarea id="text" placeholder="Type your message here..."></textarea>
+
+    <button onclick="classifyMessage()">Classify Message</button>
+
+    <h3> {{prediction_text}}</h3>
+  </div>
+  <div id="result">
+    
+    
+</div>
+</body>
+</html>
