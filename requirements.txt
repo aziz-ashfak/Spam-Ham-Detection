@@ -4,8 +4,6 @@ matplotlib
 seaborn 
 plotly
 nltk
-nltk.download('punkt')
-nltk.download('punkt_tab')
 Flask
 scikit-learn
 imblearn
