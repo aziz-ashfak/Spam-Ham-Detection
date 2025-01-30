@@ -9,4 +9,5 @@ scikit-learn
 imblearn
 wordcloud
 nbformat>=4.2.0 
+gunicorn
 # e .
