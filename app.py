@@ -3,6 +3,9 @@ import pandas as pd
 import numpy as  np 
 import os
 import sys 
+import nltk
+nltk.download('punkt')
+nltk.download('punkt_tab')
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),'../')))
 from src.pipeline.predict_pipeline import make_prediction
 
