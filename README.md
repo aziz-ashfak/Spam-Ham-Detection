@@ -89,7 +89,7 @@ https://www.kaggle.com/code/azizashfak/spam-sms-classification-using-nlp
 ## Installation
 1. Clone the repository:
    ```bash
-   git clone <https://github.com/AzizAshfak/Spam-Ham-Detection.git>
+   git clone <https://github.com/aziz-ashfak/Spam-Ham-Detection.git>
    ```
 2. Navigate to the project directory:
    ```bash
