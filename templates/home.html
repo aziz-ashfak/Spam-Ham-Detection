@@ -6,7 +6,6 @@
   <title>Spam Classification Tool</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
- 
 </head>
 <body>
   <div class="container">
@@ -15,37 +14,47 @@
     <label for="text">Enter the message to classify:</label>
     <textarea id="text" placeholder="Type your message here..."></textarea>
 
-    <button onclick="classifyMessage()">Classify Message</button>
+    <button id="classifyBtn" onclick="classifyMessage()">Classify Message</button>
 
-    <div id="result"></div>
+    <div id="result" aria-live="polite"></div>
   </div>
 
   <script>
-    async function classifyMessage() {
-      const message = document.getElementById("text").value.trim();
+  async function classifyMessage() {
+    const btn = document.getElementById("classifyBtn");
+    const resultDiv = document.getElementById("result");
+    const message = document.getElementById("text").value.trim();
 
-      if (!message) {
-        document.getElementById("result").innerText = "⚠️ Please enter a message.";
-        return;
-      }
-
-      try {
-        const response = await fetch("/predict", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text: message })
-        });
-
-        if (response.ok) {
-          const data = await response.json();
-          document.getElementById("result").innerText = "Prediction: " + data.prediction;
-        } else {
-          document.getElementById("result").innerText = " Error during prediction.";
-        }
-      } catch (error) {
-        document.getElementById("result").innerText = " Network error: " + error.message;
-      }
+    if (!message) {
+      resultDiv.innerText = " Please enter a message.";
+      return;
     }
-  </script>
+
+    btn.disabled = true;
+    resultDiv.innerText = "⏳ Classifying...";
+
+    try {
+      const response = await fetch("/predict", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ text: message })
+      });
+
+      const data = await response.json();
+
+      if (data.success) {
+        resultDiv.innerText = "Prediction: " + data.prediction;
+      } else {
+        resultDiv.innerText = "❌ Error: " + (data.error || "Unknown error");
+      }
+    } catch (error) {
+      resultDiv.innerText = "🌐 Network error: " + error.message;
+    } finally {
+      btn.disabled = false;
+    }
+  }
+</script>
+
 </body>
 </html>
+

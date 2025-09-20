@@ -1,12 +1,11 @@
 from flask import Flask, render_template, request, jsonify
+import pandas as pd
+import numpy as np
 import os
 import sys
 import nltk
 
-# Download punkt only if not already available
-nltk.download('punkt', quiet=True)
-
-# Add src path
+nltk.download('punkt')
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
 from src.pipeline.predict_pipeline import make_prediction
 
@@ -21,21 +20,24 @@ def predict():
     try:
         if request.is_json:
             data = request.get_json()
-            message = data.get("text", "")
-            if not message:
-                return jsonify({"prediction": "No message provided."})
+            message = data.get("text") or data.get("message", "")
+            if not message.strip():
+                return jsonify({"success": False, "error": "No message provided."}), 400
+
             output = make_prediction(message)
-            return jsonify({"prediction": str(output)})
+            return jsonify({"success": True, "prediction": str(output)})
+
         else:
             message = request.form.get('message', '')
+            if not message.strip():
+                return render_template("home.html", prediction_text="No message provided.")
+
             output = make_prediction(message)
             return render_template("home.html", prediction_text=str(output))
-    except Exception as e:
-        if request.is_json:
-            return jsonify({"prediction": f"Error: {str(e)}"}), 500
-        return render_template("home.html", prediction_text=f"Error: {str(e)}")
 
-if __name__ == "__main__":
-    port = int(os.environ.get("PORT", 5000))  # Render gives you PORT
-    app.run(debug=False, host="0.0.0.0", port=port)
+    except Exception as e:
+        print("Prediction Error:", e, file=sys.stderr)  # log error in console
+        return jsonify({"success": False, "error": str(e)}), 500
+
+
 
