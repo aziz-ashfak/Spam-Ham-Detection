@@ -38,6 +38,8 @@ def predict():
     except Exception as e:
         print("Prediction Error:", e, file=sys.stderr)  # log error in console
         return jsonify({"success": False, "error": str(e)}), 500
-
+if __name__ == "__main__":
+    print("Starting Flask app...")
+    app.run(debug=True, host='127.0.0.1', port=5000)
 
 
