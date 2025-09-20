@@ -6,36 +6,7 @@
   <title>Spam Classification Tool</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet"/>
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
-  <style>
-    body {
-      font-family: 'Roboto', sans-serif;
-    }
-    .container {
-      max-width: 600px;
-      margin: 40px auto;
-      padding: 20px;
-      border: 1px solid #ccc;
-      border-radius: 10px;
-    }
-    textarea {
-      width: 100%;
-      height: 100px;
-      padding: 10px;
-      font-size: 16px;
-      margin-top: 10px;
-    }
-    button {
-      padding: 10px 20px;
-      margin-top: 15px;
-      font-size: 16px;
-      cursor: pointer;
-    }
-    #result {
-      margin-top: 20px;
-      font-size: 18px;
-      font-weight: bold;
-    }
-  </style>
+ 
 </head>
 <body>
   <div class="container">
@@ -54,23 +25,25 @@
       const message = document.getElementById("text").value.trim();
 
       if (!message) {
-        document.getElementById("result").innerText = "Please enter a message.";
+        document.getElementById("result").innerText = "⚠️ Please enter a message.";
         return;
       }
 
-      const response = await fetch("/predict", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({ text: message })
-      });
+      try {
+        const response = await fetch("/predict", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ text: message })
+        });
 
-      if (response.ok) {
-        const data = await response.json();
-        document.getElementById("result").innerText = data.prediction;
-      } else {
-        document.getElementById("result").innerText = "Error occurred during prediction.";
+        if (response.ok) {
+          const data = await response.json();
+          document.getElementById("result").innerText = "Prediction: " + data.prediction;
+        } else {
+          document.getElementById("result").innerText = " Error during prediction.";
+        }
+      } catch (error) {
+        document.getElementById("result").innerText = " Network error: " + error.message;
       }
     }
   </script>

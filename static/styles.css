@@ -24,7 +24,34 @@ body{
   min-height:100vh;
   overflow:hidden;
 }
-
+  body {
+      font-family: 'Roboto', sans-serif;
+    }
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 15px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
 .bg-wrap{
   position:fixed;inset:0;z-index:0;pointer-events:none;
   background: radial-gradient(1200px 600px at 10% 10%, rgba(124,58,237,0.14), transparent 8%),
