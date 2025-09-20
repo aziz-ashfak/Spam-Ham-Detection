@@ -5,7 +5,9 @@ import os
 import sys
 import nltk
 
-nltk.download('punkt')
+# Download punkt and punkt_tab if not already available
+nltk.download('punkt', quiet=True)
+nltk.download('punkt_tab', quiet=True)
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
 from src.pipeline.predict_pipeline import make_prediction
 
