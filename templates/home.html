@@ -1,15 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Spam Classification Tool</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@300;400;700&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}"/>
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+    }
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+    }
+    textarea {
+      width: 100%;
+      height: 100px;
+      padding: 10px;
+      font-size: 16px;
+      margin-top: 10px;
+    }
+    button {
+      padding: 10px 20px;
+      margin-top: 15px;
+      font-size: 16px;
+      cursor: pointer;
+    }
+    #result {
+      margin-top: 20px;
+      font-size: 18px;
+      font-weight: bold;
+    }
+  </style>
 </head>
 <body>
   <div class="container">
-    <form action="/predict" method="POST" required>
     <h1>Spam Classification Tool</h1>
 
     <label for="text">Enter the message to classify:</label>
@@ -17,11 +46,33 @@
 
     <button onclick="classifyMessage()">Classify Message</button>
 
-    <h3> {{prediction_text}}</h3>
+    <div id="result"></div>
   </div>
-  <div id="result">
-    
-    
-</div>
+
+  <script>
+    async function classifyMessage() {
+      const message = document.getElementById("text").value.trim();
+
+      if (!message) {
+        document.getElementById("result").innerText = "Please enter a message.";
+        return;
+      }
+
+      const response = await fetch("/predict", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({ text: message })
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        document.getElementById("result").innerText = data.prediction;
+      } else {
+        document.getElementById("result").innerText = "Error occurred during prediction.";
+      }
+    }
+  </script>
 </body>
 </html>

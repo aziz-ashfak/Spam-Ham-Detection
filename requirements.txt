@@ -1,13 +1,13 @@
-pandas 
-numpy 
+pandas
+numpy
 matplotlib
-seaborn 
+seaborn
 plotly
 nltk
 Flask
 scikit-learn
 imblearn
 wordcloud
-nbformat>=4.2.0 
+nbformat
 gunicorn
 # e .
