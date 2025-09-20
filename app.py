@@ -6,6 +6,7 @@ import sys
 import nltk
 nltk.download('punkt')
 nltk.download('punkt_tab')
+nltk.download('stopwords')
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__),'../')))
 from src.pipeline.predict_pipeline import make_prediction
 
